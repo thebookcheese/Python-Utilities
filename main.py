@@ -5,6 +5,7 @@ print("slime fighter(game)")
 print("time (10 second sample of the date and time)")
 print("2d area calculator")
 print("3d volume calculator")
+print("Calculator")
 command=input("which app do you want to use? ")
 
 if command == "painted cube solving tool":
@@ -19,5 +20,6 @@ elif command == "3d volume calculator":
   import volcalc
 elif command == "time":
   import clock
+elif command == "Calculator" or command == "calculator":
 else:
-      import pidms
+  import pidms
