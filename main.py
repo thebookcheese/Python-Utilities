@@ -7,11 +7,9 @@ command=input("which app do you want to use? ")
 
 if command == "painted cube solving tool":
   import paintedcubesolver
+elif command == "triangle area finder":
+  import triongle
+elif command == "time":
+  import clock
 else:
-  if command == "triangle area finder":
-    import triongle
-  else:
-    if command == "time":
-      import clock
-    else:
-      import pidms
+  import pidms
