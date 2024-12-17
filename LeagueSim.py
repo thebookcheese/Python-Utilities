@@ -3,6 +3,12 @@ import random
 FirstNames = ['Mohammed', 'Ali', 'Peter', 'Pierre','George','John','Mina','Mark','Nicolas','Thiago','Daniel','Juan', 'Carlos']
 Surnames = ['Petrović','Maríc','Horvat','Anderson','Ivanov','Martin','Leroy','Petit','Schmitd','Olsen','Garcia','López']
 TeamsInLeague = ['Arsenal', 'Acenbourough','Bournemouth','Binster','Chelsea','Chesterman','Danelaw','Densmark','Everton','Eggsalad','Fredrikton','Fifth III Town','Gregoric Town','Germanhy','Hartlepool','Houston','Iglooton','Iceland Man']
+
+f = open("Results.txt", "x")
+f.close()
+
+f = open("Results.txt", "a")
+
 League = {
     'Arsenal' : {
     },
@@ -140,7 +146,7 @@ def Matches(squad1, squad2, squad1name, squad2name):
             if random.randrange(1, 100, 1) <= skill:
                 GoalsInMatchT1.append(k)
                 League[squad1name][k]['Goals'] = League[squad1name][k]['Goals'] + 1
-                print(k + ' scored for '+ squad1name +' in the '+str((i+1)*10)+'th minute')
+                #print(k + ' scored for '+ squad1name +' in the '+str((i+1)*10)+'th minute')
             if i >= 6 and k in T1Starting11 and k not in T1AlreadySubbed:
                 if random.randint(1,4) == 2:
                     if k in T1AlreadySubbed:
@@ -153,7 +159,7 @@ def Matches(squad1, squad2, squad1name, squad2name):
                     T1Subs[T1Subs.index(SubbedOn)] = SubbedOff
                     T1AlreadySubbed.append(SubbedOff)
                     T1AlreadySubbed.append(SubbedOn)
-                    print(f"{SubbedOn} has been substituted on for {k} in the {(i+1) *10}th minute")
+                    #print(f"{SubbedOn} has been substituted on for {k} in the {(i+1) *10}th minute")
         for k,v in squad2.items():
             if k in T2Subs:
                 continue
@@ -161,7 +167,7 @@ def Matches(squad1, squad2, squad1name, squad2name):
             if random.randrange(1, 100, 1) <= skill:
                 GoalsInMatchT2.append(k)
                 League[squad2name][k]['Goals'] = League[squad2name][k]['Goals'] + 1
-                print(k + ' scored for ' + squad2name + ' in the '+str(((i+1)*10))+'th minute')
+                #print(k + ' scored for ' + squad2name + ' in the '+str(((i+1)*10))+'th minute')
             if i >= 6 and k not in T2AlreadySubbed and k in T2Starting11:
                 if random.randint(1,4) == 2:
                     if k in T2AlreadySubbed:
@@ -174,8 +180,8 @@ def Matches(squad1, squad2, squad1name, squad2name):
                     T2Subs[T2Subs.index(SubbedOn)] = SubbedOff
                     T2AlreadySubbed.append(SubbedOff)
                     T2AlreadySubbed.append(SubbedOn)
-                    print(f"{SubbedOn} has been substituted on for {k} in the {(i+1)*10}th minute")
-    print(f"Score is {squad1name} {len(GoalsInMatchT2)} : {len(GoalsInMatchT2)} {squad2name}")
+                    #print(f"{SubbedOn} has been substituted on for {k} in the {(i+1)*10}th minute")
+    #print(f"Score is {squad1name} {len(GoalsInMatchT2)} : {len(GoalsInMatchT2)} {squad2name}")
     if len(GoalsInMatchT1) > len(GoalsInMatchT2):
         return 3, 0
     elif len(GoalsInMatchT1) < len(GoalsInMatchT2):
@@ -195,19 +201,18 @@ for value in League['Chelsea']:
     count = count + 1
 
 Points = 0
-for i in range(5):
-    if TeamsInLeague[i] == 'Chelsea':
-        pass
-    else:
-        PointsAddT1, PointsAddT2 = Matches(League['Chelsea'],League[TeamsInLeague[i]], 'Chelsea',TeamsInLeague[i]) # type: ignore
-        LeaguePoints['Chelsea'] = LeaguePoints['Chelsea'] + PointsAddT1
-        LeaguePoints[TeamsInLeague[i]] = LeaguePoints[TeamsInLeague[i]] + PointsAddT2
 
-NoGoals = 0
-for k,v in League['Chelsea'].items():
-    if v['Goals'] > 0:
-        print(f"{k} has {v['Goals']} goals with {v['Assists']} assists")
-    else:
-        NoGoals = NoGoals + 1
+for b in range(20):
+    print(b)
+    for c in range(20-b):
+        if TeamsInLeague[b] == TeamsInLeague[c]:
+            continue
+        else:
+            T1Points, T2Points = Matches(League[TeamsInLeague[b]], League[TeamsInLeague[c]], TeamsInLeague[b], TeamsInLeague[c])
+            LeaguePoints[TeamsInLeague[b]] = LeaguePoints[TeamsInLeague[b]] + T1Points
+            LeaguePoints[TeamsInLeague[c]] = LeaguePoints[TeamsInLeague[c]] + T2Points
+            print(c)
 
-print(f"{NoGoals} players have 0 goals and were not shown")
+f.write("Name : Points")
+for k,v in LeaguePoints.items():
+    f.write(f"{k} : {v}")
